@@ -1,8 +1,12 @@
+import pytest
 import random
 import codecs
+import collections
 
-def main():
-    #num = int(input('Введите количество карт необходимых для расклада: '))
+#Смысл этого PyTest-а был лишь в том чтобы убедиться, что карты при изъятии из
+#колоды, действительно исчезают, то есть, вытянутая 1 раз карта больше там не остаётся.
+
+def test1():
     cards = ['ДУРАК.txt', 'МАГ.txt', 'ЖРИЦА.txt', 'ИМПЕРАТРИЦА.txt',
     'ИМПЕРАТОР.txt', 'ИЕРОФАНТ.txt', 'ВЛЮБЛЁННЫЕ.txt', 'КОЛЕСНИЦА.txt', 'СИЛА.txt',
     'ОТШЕЛЬНИК.txt', 'КОЛЕСО ФОРТУНЫ.txt', 'СПРАВЕДЛИВОСТЬ.txt', 'ПОВЕШЕННЫЙ.txt',
@@ -25,12 +29,15 @@ def main():
     #print(cards[0].rstrip('.txt'))
     layout = []
 
-    num = int(input('Введите количество карт в раскладе: '))
+    num = 20
 
     for i in range(num):
         cards1 = random.choice(cards)
         cards.remove(cards1)
         layout.append('cards/' + cards1)
+
+    for test in range(len(layout)):    #PyTest-ом убедился, что карты взятые из колоды (список cards)
+        assert layout[test] not in cards #Действительно исчезают оттуда.
 
     print('Ваш расклад состоит из карт: ')
     #print(*layout, sep=', ')
@@ -45,7 +52,7 @@ def main():
         a = codecs.open(j, encoding='utf-8')
         print(a.read())
         a.close()
-    pass
 
 
-main()
+if __name__ == "__main__":
+    pytest.main()
